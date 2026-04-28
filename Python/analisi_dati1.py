@@ -64,7 +64,6 @@ if t_student < 3:
 else:
     print("Esito: La pendenza NON è statisticamente compatibile con zero.")
 
-# Chi-quadrato del modello lineare
 y_model_lineare = A + B * x
 chi2_lineare = np.sum(((y - y_model_lineare) / sig_y)**2)
 dof_lineare = len(df) - 2
