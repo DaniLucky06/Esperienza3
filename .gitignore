@@ -1,2 +1,4 @@
 video
 *.DS_Store
+test.py
+*.sh
