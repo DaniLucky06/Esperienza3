@@ -1,4 +1,3 @@
-import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
@@ -6,12 +5,11 @@ from scipy import stats
 # ===================
 # 1. CARICAMENTO DATI
 # ===================
-nomi_colonne = ['massa', 'periodo', 'incertezza_T']
-df = pd.read_csv('../dati_pendolo_semplice.csv', names=nomi_colonne)
+df = np.loadtxt('../dati_pendolo_semplice_1.csv', delimiter=',')
 
-x = df['massa']
-y = df['periodo']
-sig_y = df['incertezza_T']
+x = df[:, 0]
+y = df[:, 1]
+sig_y = df[:, 2]
 w = 1 / (sig_y**2)
 
 # =============================================
