@@ -22,5 +22,6 @@ h_mean = (sum(masse * h) + massa_pirulo * (h_tot + h_pirulo/2)) / (sum(masse) + 
 h_top = h_tot - h_mean
 h_voluta = l_voluta - h_top - h_pirulo
 print("Altezza dalla cima (no tappo): ", h_top)
+print("Altezza cima-perno Giorno 2", 100 - h_top)
 print("Altezza perno-cima della pila: ", h_voluta + h_pirulo)
 print("Altezza perno-pirulo: ", h_voluta)
