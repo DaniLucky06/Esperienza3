@@ -102,9 +102,3 @@ y = a+b*x;
 plot(x,y,'DisplayName','Fit lineare')
 
 legend('Location','best');
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> origin/Morla
