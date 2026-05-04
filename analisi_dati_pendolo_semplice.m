@@ -45,9 +45,7 @@ y_err_i = sqrt(y_err .^ 2 + (b .* x_err) .^ 2); % errore 2
 b_err = sqrt(S_W / D_W);
 b1 = b + 2 * b_err;
 
-while abs(b - b1) > b_err % loop di miglioramento (per k non parte nemmeno)
-    y_err_i = sqrt(y_err .^ 2 + (b .* x_err) .^ 2);
-
+while abs(b - b1) > b_err % loop di miglioramento (per k non parte nemmeno) y_err_i = sqrt(y_err .^ 2 + (b .* x_err) .^ 2);
     % Varie somme
     W = 1 ./ (y_err_i .^ 2); % "Pesi" - Weights
     S_W   = sum(W);

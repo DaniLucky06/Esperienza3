@@ -9,8 +9,11 @@ df = np.loadtxt('../dati_pendolo_semplice_1.csv', delimiter=',')
 
 x = df[:, 0]
 y = df[:, 1]
+err_ris_x = 0.1/1000;
 sig_y = df[:, 2]
+sig_x = err_ris_x/np.sqrt(12);
 w = 1 / (sig_y**2)
+
 
 # =============================================
 # 2. MODELLO 1: PERIODO COSTANTE (Media Pesata)
@@ -48,6 +51,28 @@ A = (Sxx * Sy - Sx * Sxy) / Delta
 B = (S * Sxy - Sx * Sy) / Delta
 sigma_A = np.sqrt(Sxx / Delta)
 sigma_B = np.sqrt(S / Delta)
+B1 = B + 2 * sigma_B
+
+while abs(B - B1) > sigma_B:
+    sig_y_i = np.sqrt(sig_y**2 + (B * sig_x)**2);
+
+    W = 1 / (sig_y_i**2);
+    S_W   = sum(W);
+    S_XW  = sum(x * W);
+    S_YW  = sum(y * W);
+    S_XXW = sum(x**2 * W);
+    S_XYW = sum(x * y * W);
+
+    D_W = S_W * S_XXW - S_XW**2;
+
+    sigma_B = np.sqrt(S_W / D_W);
+    B1 = B;
+    B = (1 / D_W) * (S_W * S_XYW - S_XW * S_YW);
+
+A = (1 / D_W) * (S_XXW * S_YW - S_XW * S_XYW);
+
+sigma_A = np.sqrt(S_XXW / D_W);
+sigma_B = np.sqrt(S_W / D_W);
 
 print("=== MODELLO 2: REGRESSIONE LINEARE ===")
 print(f"Intercetta A: {A:.6f} ± {sigma_A:.6f} s")
