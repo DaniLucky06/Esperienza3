@@ -83,7 +83,7 @@ plt.figure(figsize=(10, 6))
 plt.errorbar(x, y, yerr=sig_y, fmt='o', capsize=5, color='black',
              label='Dati sperimentali')
 
-plt.axhline(y=media_pesata, color='green', linestyle='--', alpha=0.7,
+plt.axhline(y=float(media_pesata), color='green', linestyle='--', alpha=0.7,
             label=f'Media pesata ({media_pesata:.4f} s)')
 
 x_range = np.linspace(x.min(), x.max(), 100)
