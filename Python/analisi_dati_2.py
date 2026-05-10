@@ -40,40 +40,40 @@ periodi_log = np.log(periodi)
 err_lunghezze_log = 1 / lunghezze * err_lunghezze
 err_periodi_log = 1 / periodi * err_periodi
 
-S   = np.sum(w)
-Sx  = np.sum(w * lunghezze_log)
-Sy  = np.sum(w * periodi_log)
-Sxx = np.sum(w * lunghezze_log**2)
-Sxy = np.sum(w * lunghezze_log * periodi_log)
+S_W   = np.sum(w)
+S_XW  = np.sum(w * lunghezze_log)
+S_YW  = np.sum(w * periodi_log)
+S_XXW = np.sum(w * lunghezze_log**2)
+S_XYW = np.sum(w * lunghezze_log * periodi_log)
 
-Delta = S * Sxx - Sx**2
+D_W = S_W * S_XXW - S_XW**2
 
-A = (Sxx * Sy - Sx * Sxy) / Delta
-B = (S * Sxy - Sx * Sy) / Delta
-sigma_A = np.sqrt(Sxx / Delta)
-sigma_B = np.sqrt(S / Delta)
+A = (S_XXW * S_YW - S_XW * S_XYW) / D_W
+B = (S_W * S_XYW - S_XW * S_YW) / D_W
+sigma_A = np.sqrt(S_XXW / D_W)
+sigma_B = np.sqrt(S_W / D_W)
 B1 = B + 2 * sigma_B
 
 while abs(B - B1) > sigma_B:
-    sig_y_i = np.sqrt(err_periodi_teo**2 + (B * err_lunghezze_log)**2);
+    sig_y_i = np.sqrt(err_periodi_teo**2 + (B * err_lunghezze_log)**2)
 
-    W = 1 / (sig_y_i**2);
-    S_W   = sum(W);
-    S_XW  = sum(lunghezze_log * W);
-    S_YW  = sum(periodi_log * W);
-    S_XXW = sum(lunghezze_log**2 * W);
-    S_XYW = sum(lunghezze_log * periodi_log * W);
+    W = 1 / (sig_y_i**2)
+    S_W   = sum(W)
+    S_XW  = sum(lunghezze_log * W)
+    S_YW  = sum(periodi_log * W)
+    S_XXW = sum(lunghezze_log**2 * W)
+    S_XYW = sum(lunghezze_log * periodi_log * W)
 
-    D_W = S_W * S_XXW - S_XW**2;
+    D_W = S_W * S_XXW - S_XW**2
 
-    sigma_B = np.sqrt(S_W / D_W);
-    B1 = B;
-    B = (1 / D_W) * (S_W * S_XYW - S_XW * S_YW);
+    sigma_B = np.sqrt(S_W / D_W)
+    B1 = B
+    B = (1 / D_W) * (S_W * S_XYW - S_XW * S_YW)
 
-A = (1 / D_W) * (S_XXW * S_YW - S_XW * S_XYW);
+A = (1 / D_W) * (S_XXW * S_YW - S_XW * S_XYW)
 
-sigma_A = np.sqrt(S_XXW / D_W);
-sigma_B = np.sqrt(S_W / D_W);
+sigma_A = np.sqrt(S_XXW / D_W)
+sigma_B = np.sqrt(S_W / D_W)
 
 # ==========
 # 3. GRAFICI
