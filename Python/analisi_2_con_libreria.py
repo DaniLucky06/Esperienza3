@@ -50,9 +50,26 @@ for i in range(1, len(periodi) - 5):
 
 dev_std_effettiva = np.sqrt(dev_std_periodi**2 + (reg_data.b * dev_std_lunghezze)**2)
 
+### --- SEZIONE PENDOLO REALE --- ###
+I_cm = 0.000115216532
+m1 = 0.2003
+m2 = 0.0844
+M = m1 + m2
+g = 9.80655
+
+def T(L):
+    ret = I_cm + M * L**2
+    ret /= M * g * L
+    ret = 2 * np.pi * np.sqrt(ret)
+    return ret
+
+periodi_reali = np.log(T(df[0] / 100 - 0.001))
+### --- FINE SEZIONE PENDOLO REALE --- ###
+
 plt.figure()
 plt.hlines(0, x[0], x[-1], 'b')
 
 plt.errorbar(lunghezze[index:-1], periodi[index:-1] - (reg_data.a + reg_data.b * lunghezze[index:-1]), yerr=dev_std_effettiva[index:-1], fmt='gx')
 plt.errorbar(lunghezze[0:index], periodi[0:index] - (reg_data.a + reg_data.b * lunghezze[0:index]), yerr=dev_std_effettiva[0:index], fmt='rx')
+plt.plot(lunghezze, periodi_reali - (reg_data.a + reg_data.b * lunghezze))
 plt.show()
