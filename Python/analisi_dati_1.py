@@ -12,9 +12,9 @@ df = np.loadtxt(os.path.join(dir, '../dati_pendolo_semplice_1.csv'), delimiter='
 
 x = df[:, 0]
 y = df[:, 1]
-err_ris_x = 0.1/1000;
+err_ris_x = 0.1/1000
 sig_y = df[:, 2]
-sig_x = err_ris_x/np.sqrt(12);
+sig_x = err_ris_x/np.sqrt(12)
 w = 1 / (sig_y**2)
 
 
