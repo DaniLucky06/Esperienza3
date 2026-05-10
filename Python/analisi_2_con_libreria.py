@@ -54,14 +54,15 @@ dev_std_effettiva = np.sqrt(dev_std_periodi**2 + (reg_data.b * dev_std_lunghezze
 I_cm = 0.000115216532
 m1 = 0.2003
 m2 = 0.0844
+m_pir = 0
 M = m1 + m2
 g = 9.80655
 
 def T(L):
-    ret = I_cm + M * L**2
-    ret /= M * g * L
-    ret = 2 * np.pi * np.sqrt(ret)
-    return ret
+    I_pir = m_pir * (L - 0.0194)**2
+    num = I_cm + M * L**2 + I_pir
+    den = M * L * g
+    return 2 * np.pi * np.sqrt(num / den)
 
 periodi_reali = np.log(T(df[0] / 100 - 0.001))
 ### --- FINE SEZIONE PENDOLO REALE --- ###
@@ -73,3 +74,12 @@ plt.errorbar(lunghezze[index:-1], periodi[index:-1] - (reg_data.a + reg_data.b *
 plt.errorbar(lunghezze[0:index], periodi[0:index] - (reg_data.a + reg_data.b * lunghezze[0:index]), yerr=dev_std_effettiva[0:index], fmt='rx')
 plt.plot(lunghezze, periodi_reali - (reg_data.a + reg_data.b * lunghezze))
 plt.show()
+
+a = reg_data.a
+a_err = reg_data.a_err
+a_real = np.exp(a)
+g_experiment = (2 * np.pi / a_real) ** 2
+
+err_a_real = np.exp(a) * a_err
+err_g_experiment = 8 * np.pi ** 2 / a_real ** 3 * err_a_real
+print(g_experiment, err_g_experiment)
