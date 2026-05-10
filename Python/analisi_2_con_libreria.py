@@ -7,10 +7,11 @@ import numpy as np
 
 df = np.loadtxt(os.path.join(dir, '../dati_pendolo_semplice_2.csv'), delimiter=',')
 
-chi2_valido = 1.2
+chi2_valido = 1.5
 
 df = df[:, np.argsort(df[0])]
-lunghezze = np.log(df[0] / 100)
+lunghezze_pre_log = df[0] / 100 - 0.0005
+lunghezze = np.log(lunghezze_pre_log)
 omega = df[1]
 
 periodi = 2 * np.pi / omega
@@ -23,7 +24,7 @@ periodi = np.log(periodi)
 err_filo = 0.001 / np.sqrt(12)
 err_baricentro = 0.001 / np.sqrt(12)
 err_lunghezze = np.sqrt(err_filo**2 + err_baricentro**2)
-dev_std_lunghezze = np.ones(len(lunghezze)) * err_lunghezze / (df[0] / 100)
+dev_std_lunghezze = np.ones(len(lunghezze)) * err_lunghezze / (lunghezze_pre_log)
 
 measurements = WeightedMeasurements(lunghezze, periodi, dev_std_lunghezze, dev_std_periodi)
 reg_data, xy_data = weightedLinReg(measurements)
@@ -64,7 +65,7 @@ def T(L):
     den = M * L * g
     return 2 * np.pi * np.sqrt(num / den)
 
-periodi_reali = np.log(T(df[0] / 100 - 0.001))
+periodi_reali = np.log(T(lunghezze_pre_log - 0.0005))
 ### --- FINE SEZIONE PENDOLO REALE --- ###
 
 plt.figure()
