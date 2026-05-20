@@ -74,10 +74,12 @@ for i, j in enumerate(indices[::-1]):
 
 periodi = 2 * np.pi / omega
 dev_std_omega = df[2]
-# dev_std_omega = errs[indices[::-1]]
 
-# dev_std_periodi = 2 * np.pi / omega**2 * dev_std_omega
-# dev_std_periodi = np.abs(1 / periodi) * np.sqrt(dev_std_periodi**2 + err_ris_t**2)
+print((dev_std_omega - errs[indices[::-1]]) / dev_std_omega)
+dev_std_omega = errs[indices[::-1]]
+dev_std_periodi = 2 * np.pi / omega**2 * dev_std_omega
+dev_std_periodi = np.abs(1 / periodi) * np.sqrt(dev_std_periodi**2 + err_ris_t**2)
+
 dev_std_periodi = dev_std_omega / omega
 
 
@@ -120,10 +122,11 @@ for i in range(1, len(periodi) - 5):
 # plt.show()
 
 dev_std_effettiva = np.sqrt(dev_std_periodi**2 + (reg_data.b * dev_std_lunghezze)**2)
+print(dev_std_effettiva / (reg_data.b * dev_std_lunghezze))
 
 plt.figure()
 plt.hlines(0, x[0], x[-1], 'b')
-# plt.errorbar(lunghezze, np.log(2 * np.pi / omegas[indices[::-1]]) - (reg_data.a + reg_data.b * lunghezze), dev_std_periodi, dev_std_lunghezze, 'bx')
+plt.errorbar(lunghezze, np.log(2 * np.pi / omegas[indices[::-1]]) - (reg_data.a + reg_data.b * lunghezze), yerr=dev_std_effettiva, fmt='bx')
 
 plt.errorbar(lunghezze[index:-1], periodi[index:-1] - (reg_data.a + reg_data.b * lunghezze[index:-1]), yerr=dev_std_effettiva[index:-1], fmt='gx')
 plt.errorbar(lunghezze[0:index], periodi[0:index] - (reg_data.a + reg_data.b * lunghezze[0:index]), yerr=dev_std_effettiva[0:index], fmt='rx')
