@@ -122,7 +122,7 @@ for i in range(1, len(periodi) - 5):
 # plt.show()
 
 dev_std_effettiva = np.sqrt(dev_std_periodi**2 + (reg_data.b * dev_std_lunghezze)**2)
-print(dev_std_effettiva / (reg_data.b * dev_std_lunghezze))
+print(dev_std_periodi / (reg_data.b * dev_std_lunghezze))
 
 plt.figure()
 plt.hlines(0, x[0], x[-1], 'b')

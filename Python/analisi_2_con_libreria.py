@@ -2,6 +2,7 @@ import sys, os
 dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(dir, "analisi-dati-python"))
 from analysis import *
+import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -69,11 +70,18 @@ periodi_reali = np.log(T(lunghezze_pre_log - 0.0005))
 ### --- FINE SEZIONE PENDOLO REALE --- ###
 
 plt.figure()
-plt.hlines(0, x[0], x[-1], 'b')
+matplotlib.rcParams.update({'font.size': 15})
+plt.hlines(0, x[0], x[-1], 'b', label="Fit")
 
-plt.errorbar(lunghezze[index:-1], periodi[index:-1] - (reg_data.a + reg_data.b * lunghezze[index:-1]), yerr=dev_std_effettiva[index:-1], fmt='gx')
-plt.errorbar(lunghezze[0:index], periodi[0:index] - (reg_data.a + reg_data.b * lunghezze[0:index]), yerr=dev_std_effettiva[0:index], fmt='rx')
-plt.plot(lunghezze, periodi_reali - (reg_data.a + reg_data.b * lunghezze))
+plt.errorbar(lunghezze[index:-1], periodi[index:-1] - (reg_data.a + reg_data.b * lunghezze[index:-1]), yerr=dev_std_effettiva[index:-1], fmt='gx', label="Compatibili")
+plt.errorbar(lunghezze[0:index], periodi[0:index] - (reg_data.a + reg_data.b * lunghezze[0:index]), yerr=dev_std_effettiva[0:index], fmt='rx', label="Non compatibili")
+plt.plot(lunghezze, periodi_reali - (reg_data.a + reg_data.b * lunghezze), 'y', label="Pendolo fisico")
+
+plt.legend(fontsize=20)
+plt.xlabel("$ln(\ell)$", fontsize=20)
+plt.ylabel("$\ln T_{\mathrm{mis}} - (A + B\ln\ell)$", fontsize=20)
+plt.title("Residui del fit lineare")
+
 plt.show()
 
 a = reg_data.a
